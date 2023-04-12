@@ -1,4 +1,3 @@
-// (c) Daniel Ryskamp Rijsketic, Boris Heifets @ Stanford University, 2021-2023
 setBatchMode(true);
 
 inputlist=getArgument();
