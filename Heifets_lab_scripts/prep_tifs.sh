@@ -95,18 +95,14 @@ for sample in ${sample_array[@]}; do
   if [ $((SizeX%2)) -ne 0 ] || [ $((SizeY%2)) -ne 0 ]; then
     echo "  Making ochann x and y pixel dim even for tif to nii.gz conversion for $sample "
     first_ochann_tif=$(ls ochann | head -1)
-    cp ochann ochann_original #ochann_original can be deleted to save space if same # of tifs in ochann and ochann_original, but keep first tif if it has metadata
-  fi
 
-  first_ochann_tif=$(ls ochann | head -1)
-
-  if [ $((SizeX%2)) -ne 0 ] && [ $((SizeY%2)) -eq 0 ]; then
-    $FIJI_PATH --ij2 -macro prep_tifs $PWD/ochann/$first_ochann_tif#0#SizeX_odd#SizeY_even#ochann#_Ch2_
-  elif [ $((SizeX%2)) -eq 0 ] && [ $((SizeY%2)) -ne 0 ]; then
-    $FIJI_PATH --ij2 -macro prep_tifs $PWD/ochann/$first_ochann_tif#0#SizeX_even#SizeY_odd#ochann#_Ch2_
-  elif  [ $((SizeX%2)) -ne 0 ] && [ $((SizeY%2)) -ne 0 ]; then
-    $FIJI_PATH --ij2 -macro prep_tifs $PWD/ochann/$first_ochann_tif#0#SizeX_odd#SizeY_odd#ochann#_Ch2_
-  fi
+    if [ $((SizeX%2)) -ne 0 ] && [ $((SizeY%2)) -eq 0 ]; then
+      $FIJI_PATH --ij2 -macro prep_tifs $PWD/ochann/$first_ochann_tif#0#SizeX_odd#SizeY_even#ochann#_Ch2_
+    elif [ $((SizeX%2)) -eq 0 ] && [ $((SizeY%2)) -ne 0 ]; then
+      $FIJI_PATH --ij2 -macro prep_tifs $PWD/ochann/$first_ochann_tif#0#SizeX_even#SizeY_odd#ochann#_Ch2_
+    elif  [ $((SizeX%2)) -ne 0 ] && [ $((SizeY%2)) -ne 0 ]; then
+      $FIJI_PATH --ij2 -macro prep_tifs $PWD/ochann/$first_ochann_tif#0#SizeX_odd#SizeY_odd#ochann#_Ch2_
+    fi
 
   if [ $((SizeX%2)) -ne 0 ] || [ $((SizeY%2)) -ne 0 ]; then
     old_filename_pattern=$(echo $first_ochann_tif | sed 's/0000/*/g')
